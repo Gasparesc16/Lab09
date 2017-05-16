@@ -1,5 +1,7 @@
 package it.polito.tdp.metrodeparis.model;
 
+import java.util.List;
+
 import com.javadocmd.simplelatlng.LatLng;
 
 public class Fermata {
@@ -7,6 +9,8 @@ public class Fermata {
 	private int idFermata;
 	private String nome;
 	private LatLng coords;
+	
+	private List<FermataSuLinea> fermateSuLinea;
 
 	public Fermata(int idFermata, String nome, LatLng coords) {
 		this.idFermata = idFermata;
@@ -64,5 +68,10 @@ public class Fermata {
 	@Override
 	public String toString() {
 		return nome;
+	}
+	
+	
+	public void addFermataSuLinea(FermataSuLinea fermataSuLinea) {
+		this.fermateSuLinea.add(fermataSuLinea);
 	}
 }
