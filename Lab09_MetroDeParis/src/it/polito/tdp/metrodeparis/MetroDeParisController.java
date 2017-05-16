@@ -7,6 +7,7 @@ package it.polito.tdp.metrodeparis;
 import java.net.URL;
 import java.util.ResourceBundle;
 
+import it.polito.tdp.metrodeparis.model.Fermata;
 import it.polito.tdp.metrodeparis.model.Model;
 import javafx.event.ActionEvent;
 import javafx.fxml.FXML;
@@ -24,16 +25,30 @@ public class MetroDeParisController {
     private URL location;
 
     @FXML // fx:id="cmbPartenza"
-    private ComboBox<?> cmbPartenza; // Value injected by FXMLLoader
+    private ComboBox<Fermata> cmbPartenza; // Value injected by FXMLLoader
 
     @FXML // fx:id="cmbArrivo"
-    private ComboBox<?> cmbArrivo; // Value injected by FXMLLoader
+    private ComboBox<Fermata> cmbArrivo; // Value injected by FXMLLoader
 
     @FXML // fx:id="txtResult"
     private TextArea txtResult; // Value injected by FXMLLoader
 
     @FXML
     void doCalcolaPercorso(ActionEvent event) {
+    	
+//    	Fermata partenza = this.cmbPartenza.getValue();
+//    	Fermata arrivo = this.cmbArrivo.getValue();
+//    	
+//    	if(partenza == null){
+//    		
+//    		txtResult.setText("Stazione di partenza non selezionata!");
+//    		return;
+//    		
+//    	}
+//    	
+//    	this.cmbArrivo.getItems().addAll(model.getAllFermateArrivo(partenza));
+    	
+    	
 
     }
 
@@ -48,6 +63,9 @@ public class MetroDeParisController {
 	public void setModel(Model model) {
 		// TODO Auto-generated method stub
 		this.model= model;
+		
+		
+		this.cmbPartenza.getItems().addAll(model.getAllFermate());
 		
 	}
 }
