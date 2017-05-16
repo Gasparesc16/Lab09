@@ -5,6 +5,7 @@
 package it.polito.tdp.metrodeparis;
 
 import java.net.URL;
+import java.util.List;
 import java.util.ResourceBundle;
 
 import it.polito.tdp.metrodeparis.model.Fermata;
@@ -36,18 +37,54 @@ public class MetroDeParisController {
     @FXML
     void doCalcolaPercorso(ActionEvent event) {
     	
-//    	Fermata partenza = this.cmbPartenza.getValue();
-//    	Fermata arrivo = this.cmbArrivo.getValue();
-//    	
-//    	if(partenza == null){
-//    		
-//    		txtResult.setText("Stazione di partenza non selezionata!");
-//    		return;
-//    		
-//    	}
-//    	
-//    	this.cmbArrivo.getItems().addAll(model.getAllFermateArrivo(partenza));
+//    	this.cmbPartenza.getItems().clear();
+//    	this.cmbArrivo.getItems().clear();
     	
+    	Fermata partenza = this.cmbPartenza.getValue();
+    	Fermata arrivo = this.cmbArrivo.getValue();
+    	
+    	if(partenza == null){
+   		
+   		txtResult.setText("Stazione di partenza non selezionata!");
+    		return;
+    		
+    	}
+    	else if(arrivo == null){
+       		
+       		txtResult.setText("Stazione di arrivo non selezionata!");
+        	return;
+        		
+        	} 
+    	 else if(partenza.equals(arrivo)){
+       		
+       		txtResult.setText("Percorso scelto non valido!");
+        	return;
+        	}
+    	
+    	
+    	
+    	try {
+			// Calcolo il percorso tra le due stazioni
+			model.calcolaPercorso(partenza, arrivo);
+
+			// Ottengo il tempo di percorrenza
+			int tempoTotaleInSecondi = (int) model.getPercorsoTempoTotale();
+			int ore = tempoTotaleInSecondi / 3600;
+			int minuti = (tempoTotaleInSecondi % 3600) / 60;
+			int secondi = tempoTotaleInSecondi % 60;
+			String timeString = String.format("%02d:%02d:%02d", ore, minuti, secondi);
+
+			StringBuilder risultato = new StringBuilder();
+			// Ottengo il percorso
+			risultato.append(model.getPercorsoEdgeList());
+			risultato.append("\n\nTempo di percorrenza stimato: " + timeString + "\n");
+
+			// Aggiorno la TextArea
+			txtResult.setText(risultato.toString());
+			
+		} catch (RuntimeException e) {
+			txtResult.setText(e.getMessage());
+		}
     	
 
     }
@@ -64,8 +101,21 @@ public class MetroDeParisController {
 		// TODO Auto-generated method stub
 		this.model= model;
 		
+		try {
+			model.creaGrafo();
+			
+			List<Fermata> fermate = model.getAllFermate();
+			this.cmbPartenza.getItems().addAll(fermate);
+			this.cmbArrivo.getItems().addAll(fermate);
+			
+		} catch (RuntimeException e) {
+			txtResult.setText(e.getMessage());
+		}
 		
-		this.cmbPartenza.getItems().addAll(model.getAllFermate());
+		
+		
+		
+		
 		
 	}
 }
