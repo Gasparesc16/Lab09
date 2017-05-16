@@ -86,6 +86,7 @@ public class Model {
 			//Graphs.addEdge(grafo, fslPartenza, fslArrivo, tempo);
 		}
 		
+		// -----   Esercizio  2 ------
 		
 //		// Aggiungo tutte le connessioni tra tutte le fermateSuLinee della stessa Fermata
 //				for (Fermata fermata : fermate) {
